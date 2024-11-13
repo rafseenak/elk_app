@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "244262150078",
+    "project_id": "elkbusinesshub",
+    "storage_bucket": "elkbusinesshub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244262150078:android:6b5a9dd7d916d2f96923ef",
+        "android_client_info": {
+          "package_name": "com.infinitelab.elk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244262150078-sd90m4t4orbrf1knjuopcigb01oj6v8s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.infinitelab.elk",
+            "certificate_hash": "68de56c7948f0a63b3e95145f44e1dcd59788897"
+          }
+        },
+        {
+          "client_id": "244262150078-chp67p5afhrh89vj47r7fpkbm8attn9g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ-buo3VQrljJAAKJ2oRKdLGq3A74hCYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "244262150078-chp67p5afhrh89vj47r7fpkbm8attn9g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "244262150078-j8q2uid1pesoj6us9dtfjdsugpg3e3tm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.infinitelab.elk"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
