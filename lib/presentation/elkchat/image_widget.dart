@@ -51,19 +51,23 @@ class _ImageMessageBubbleState extends State<ImageMessageBubble> {
     if (directory == null) {
       throw Exception("No available directory to download the file.");
     }
-    String newPath = '${directory.path}/images/${widget.fileName}';
-    File newfile = File(newPath);
+    String newPath = '${directory.path}/images';
+    Directory imagesDirectory = Directory(newPath);
+    if (!await imagesDirectory.exists()) {
+      await imagesDirectory.create(recursive: true);
+    }
+    String filePath = '$newPath/${widget.fileName}';
+    File newFile = File(filePath);
     final response = await http.get(Uri.parse(widget.imageUrl));
-
     if (response.statusCode == 200) {
-      await newfile.writeAsBytes(response.bodyBytes);
+      await newFile.writeAsBytes(response.bodyBytes);
       setState(() {
         isExistFile = true;
-        imageFile = newfile;
+        imageFile = newFile;
       });
-      return newfile;
+      return newFile;
     } else {
-      throw Exception("Failed to download audio: ${response.body}");
+      throw Exception("Failed to download image: ${response.body}");
     }
   }
 

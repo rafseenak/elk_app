@@ -403,62 +403,63 @@ class _HomeState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: BlocProvider(
-                      create: (context) => ChatRoomListBloc()
-                        ..add(LoadChatRooms(
-                          authUserId: _authProvider.authUser!.userId,
-                        )),
-                      child: BlocBuilder<ChatRoomListBloc, ChatRoomListState>(
-                        builder: (context, state) {
-                          return Container(
-                            width: 15,
-                            height: 15,
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: Text(
-                                state.count.toString(),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
                   // Align(
                   //   alignment: Alignment.topRight,
-                  //   child: FutureBuilder(
-                  //     future: apiClient
-                  //         .getChatRoomCount(_authProvider.authUser!.userId),
-                  //     builder: (context, snapShot) {
-                  //       return Container(
-                  //         width: 15,
-                  //         height: 15,
-                  //         decoration: const BoxDecoration(
-                  //           color: Colors.red,
-                  //           shape: BoxShape.circle,
-                  //         ),
-                  //         child: Center(
-                  //           child: Text(
-                  //             snapShot.hasData ? snapShot.data.toString() : '',
-                  //             style: const TextStyle(
-                  //               color: Colors.white,
-                  //               fontSize: 10,
+                  //   child: BlocProvider(
+                  //     create: (context) => ChatRoomListBloc(
+                  //         authUserId: _authProvider.authUser!.userId)
+                  //       ..add(LoadChatRooms(
+                  //         authUserId: _authProvider.authUser!.userId,
+                  //       )),
+                  //     child: BlocBuilder<ChatRoomListBloc, ChatRoomListState>(
+                  //       builder: (context, state) {
+                  //         return Container(
+                  //           width: 15,
+                  //           height: 15,
+                  //           decoration: const BoxDecoration(
+                  //             color: Colors.red,
+                  //             shape: BoxShape.circle,
+                  //           ),
+                  //           child: Center(
+                  //             child: Text(
+                  //               state.count.toString(),
+                  //               style: const TextStyle(
+                  //                 color: Colors.white,
+                  //                 fontSize: 10,
+                  //               ),
                   //             ),
                   //           ),
-                  //         ),
-                  //       );
-                  //     },
+                  //         );
+                  //       },
+                  //     ),
                   //   ),
                   // ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: StreamBuilder(
+                      stream: apiClient
+                          .getChatRoomCount(_authProvider.authUser!.userId),
+                      builder: (context, snapShot) {
+                        return Container(
+                          width: 15,
+                          height: 15,
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Text(
+                              snapShot.hasData ? snapShot.data.toString() : '',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

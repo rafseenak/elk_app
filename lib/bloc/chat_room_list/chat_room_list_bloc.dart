@@ -7,16 +7,18 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatRoomListBloc extends Bloc<ChatRoomListEvent, ChatRoomListState> {
   late IO.Socket socket;
-
-  ChatRoomListBloc() : super(ChatRoomListLoading([], 0)) {
+  final int? authUserId;
+  ChatRoomListBloc({required this.authUserId})
+      : super(ChatRoomListLoading([], 0, authUserId: authUserId)) {
     connectSocket();
 
     on<LoadChatRooms>((event, emit) async {
-      emit(ChatRoomListLoading([], 0));
+      emit(ChatRoomListLoading([], 0, authUserId: authUserId));
       try {
         socket.emit('getChatRooms', event.authUserId);
       } catch (e) {
-        emit(ChatRoomListError("Failed to load chat rooms", [], 0));
+        emit(ChatRoomListError("Failed to load chat rooms", [], 0,
+            authUserId: authUserId));
       }
     });
   }
@@ -35,19 +37,18 @@ class ChatRoomListBloc extends Bloc<ChatRoomListEvent, ChatRoomListState> {
     socket.on('connect', (_) {
       print('Connected to socket server');
     });
-
+    socket.on('newMessage', (_) {
+      // Emit LoadChatRooms event to refresh the chat room list
+      add(LoadChatRooms(authUserId: state.authUserId));
+    });
     socket.on('chatRooms', (data) {
       print('Received chatRooms data: $data');
       if (data != null) {
-        emit(ChatRoomListLoaded(data, 0));
+        emit(ChatRoomListLoaded(data, 0, authUserId: authUserId));
       } else {
-        emit(ChatRoomListError("No chat rooms available", [], 0));
+        emit(ChatRoomListError("No chat rooms available", [], 0,
+            authUserId: authUserId));
       }
-    });
-
-    socket.on('chatRoomCount', (data) {
-      print('Received chatRooms data: $data');
-      emit(ChatRoomListLoaded(state.chatRooms, data ?? 0));
     });
   }
 

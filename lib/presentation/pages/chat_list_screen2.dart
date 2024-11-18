@@ -13,7 +13,7 @@ class ChatRoomList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ChatRoomListBloc()
+      create: (context) => ChatRoomListBloc(authUserId: authUserId)
         ..add(LoadChatRooms(
           authUserId: authUserId,
         )),
@@ -74,13 +74,7 @@ class ChatRoomList extends StatelessWidget {
                                       ad: const {},
                                     ),
                                   ),
-                                ).then((_) {
-                                  context.read<ChatRoomListBloc>().add(
-                                        LoadChatRooms(
-                                          authUserId: authUserId,
-                                        ),
-                                      );
-                                });
+                                );
                               },
                             ),
                             const Padding(

@@ -83,8 +83,7 @@ class ChatScreenBloc extends Bloc<ChatScreenEvent, ChatScreenState> {
         ...currentChatRoom,
         'chat': currentChatData,
       };
-      socket.emit('updateMessageStatus',
-          {'authUserId': state.authUserId, 'otherUserId': state.otherUserId});
+
       emit(ChatScreenLoaded(
           chatRoom: updatedChatRoom,
           isBlockedByOther: state.isBlockedByOther,
@@ -144,8 +143,7 @@ class ChatScreenBloc extends Bloc<ChatScreenEvent, ChatScreenState> {
           'otherUser': otherUser.data!.toMap(),
           'chat': chats.isNotEmpty ? chats['data'] : []
         };
-        socket.emit('updateMessageStatus',
-            {'authUserId': event.authUserId, 'otherUserId': event.userId});
+
         emit(ChatScreenLoaded(
             chatRoom: chatScreenMessages,
             isBlockedByOther: state.isBlockedByOther,
@@ -176,13 +174,22 @@ class ChatScreenBloc extends Bloc<ChatScreenEvent, ChatScreenState> {
     socket.connect();
 
     socket.on('connect', (_) {
-      print('Connected to socket server');
+      print('Connected to socket server2');
+      socket.emit('register', state.authUserId);
+      print('Connected to socket server3');
     });
 
     socket.on('newMessage', (data) {
-      add(NewMessageEvent(
-        message: data,
-      ));
+      final senderId = data['sender_id'];
+      final receiverId = data['reciever_id'];
+      if ((state.authUserId == senderId && state.otherUserId == receiverId) ||
+          (state.authUserId == receiverId && state.otherUserId == senderId)) {
+        add(NewMessageEvent(
+          message: data,
+        ));
+      } else {
+        print("Message not for this chat: $data");
+      }
     });
 
     socket.on('chatRoomCount', (data) {

@@ -683,18 +683,18 @@ class ApiClient {
     }
   }
 
-  Future<int?> getChatRoomCount(int? userId) async {
+  Stream<int?> getChatRoomCount(int? userId) async* {
     while (true) {
       try {
         final response = await _dio.get('unread_chat_room_count',
             queryParameters: {'authUserId': userId});
-        return response.data['count'];
+        yield response.data['count'];
       } on DioException catch (e) {
-        return 0;
+        yield 0;
       } catch (e) {
-        return 0;
+        yield 0;
       }
-      // await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
     }
   }
 

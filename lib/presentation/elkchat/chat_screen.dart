@@ -59,64 +59,68 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Scaffold(
           appBar: _buildAppbar(context),
           body: Stack(children: [
-            BlocBuilder<ChatScreenBloc, ChatScreenState>(
-              builder: (context, state) {
-                if (state is ChatScreenLoading) {
-                  return Container(
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/bg_chat.jpg'),
-                        fit: BoxFit.cover,
+            BlocListener<ChatScreenBloc, ChatScreenState>(
+              listener: (context, state) {
+                context
+                    .read<ChatScreenBloc>()
+                    .socket
+                    .emit('updateMessageStatus', {
+                  'authUserId': state.authUserId,
+                  'otherUserId': state.otherUserId,
+                });
+              },
+              child: BlocBuilder<ChatScreenBloc, ChatScreenState>(
+                builder: (context, state) {
+                  if (state is ChatScreenLoading) {
+                    return Container(
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/bg_chat.jpg'),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                } else if (state is ChatScreenLoaded ||
-                    state is MessageSendStartState) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _scrollToBottom();
-                    context
-                        .read<ChatScreenBloc>()
-                        .socket
-                        .emit('updateMessageStatus', {
-                      'authUserId': state.authUserId,
-                      'otherUserId': state.otherUserId,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  } else if (state is ChatScreenLoaded ||
+                      state is MessageSendStartState) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _scrollToBottom();
                     });
-                  });
-                  return Container(
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/bg_chat.jpg'),
-                        fit: BoxFit.cover,
+                    return Container(
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/bg_chat.jpg'),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    child: (state.chatRoom['chat']['chatMessages'].isEmpty)
-                        ? Center(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white),
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(
-                                  'No Messages, Start Chating...',
-                                  style: TextStyle(
-                                      color: Colors.amber,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
+                      child: (state.chatRoom['chat']['chatMessages'].isEmpty)
+                          ? Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'No Messages, Start Chating...',
+                                    style: TextStyle(
+                                        color: Colors.amber,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                        : _buildMessageList(state.chatRoom),
-                  );
-                } else if (state is ChatScreenError) {
-                  return const Center(child: Text('Error'));
-                }
-                return Container();
-              },
+                            )
+                          : _buildMessageList(state.chatRoom),
+                    );
+                  } else if (state is ChatScreenError) {
+                    return const Center(child: Text('Error'));
+                  }
+                  return Container();
+                },
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,

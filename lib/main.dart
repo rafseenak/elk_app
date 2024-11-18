@@ -167,7 +167,8 @@ class _MyAppSatte extends State<MyApp> {
           create: (_) => ChatScreenBloc(),
         ),
         BlocProvider(
-          create: (_) => ChatRoomListBloc(),
+          create: (_) => ChatRoomListBloc(
+              authUserId: authProvider(context).authUser!.userId),
         )
       ],
       child: child,
