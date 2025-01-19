@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, unnecessary_import, depend_on_referenced_packages
+// ignore_for_file: unused_import, unnecessary_import, depend_on_referenced_packages, avoid_print
 
 import 'dart:io';
 
@@ -691,23 +691,31 @@ class _RentItemScreenBody extends State<RentItemScreen> {
               width: double.infinity,
               height: 40,
               child: FilledButton(
-                  style: ButtonStyle(
-                    overlayColor: MaterialStateProperty.all(Colors.amber),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
+                style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.all(Colors.amber),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  onPressed: () {
+                ),
+                onPressed: () {
+                  print(snapShot.data!.data!);
+                  if (getUserType(context) == UserType.guest) {
+                    Fluttertoast.showToast(
+                        msg: 'Guest user cannot access this option');
+                  } else {
                     showDialog(
-                        context: context,
-                        builder: (context) => ContactWidgetDialog(
-                              userId: snapShot.data!.data!.userId,
-                              ad: adDetails,
-                            ));
-                  },
-                  child: Text(localisation(context).viewContact)),
+                      context: context,
+                      builder: (context) => ContactWidgetDialog(
+                        userId: snapShot.data!.data!.userId,
+                        ad: adDetails,
+                      ),
+                    );
+                  }
+                },
+                child: Text(localisation(context).viewContact),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10),

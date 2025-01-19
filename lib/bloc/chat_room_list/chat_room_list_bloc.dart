@@ -21,11 +21,24 @@ class ChatRoomListBloc extends Bloc<ChatRoomListEvent, ChatRoomListState> {
             authUserId: authUserId));
       }
     });
+    on<UpdateChatRoomNewMessageCount>((event, emit) {
+      if (state is ChatRoomListLoaded) {
+        final currentState = state as ChatRoomListLoaded;
+        final updatedChatRooms =
+            List<Map<String, dynamic>>.from(currentState.chatRooms);
+
+        // Update the new_message_count for the specified chat room
+        updatedChatRooms[event.chatRoomIndex]['new_message_count'] =
+            event.newMessageCount;
+
+        emit(ChatRoomListLoaded(state.chatRooms, 0, authUserId: authUserId));
+      }
+    });
   }
 
   void connectSocket() {
     socket = IO.io(
-      'http://192.168.124.124:3000',
+      'https://api.elkcompany.online',
       <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': false,
@@ -38,7 +51,6 @@ class ChatRoomListBloc extends Bloc<ChatRoomListEvent, ChatRoomListState> {
       print('Connected to socket server');
     });
     socket.on('newMessage', (_) {
-      // Emit LoadChatRooms event to refresh the chat room list
       add(LoadChatRooms(authUserId: state.authUserId));
     });
     socket.on('chatRooms', (data) {

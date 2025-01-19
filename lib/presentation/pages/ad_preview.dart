@@ -55,7 +55,7 @@ class _AdPreviewScreenState extends State<AdPreviewScreen> {
 
     await Share.shareXFiles([
       XFile(imageFile.path)
-    ], text: '''Title : $title\n Description: ${description.substring(0, description.length > 40 ? 40 : description.length)}...\n Check now : https://elkcompany.in/ad/${widget.adId}''')
+    ], text: '''Title : $title\n Description: ${description.substring(0, description.length > 40 ? 40 : description.length)}...\n Check now : https://api.elkcompany.online/ad/${widget.adId}''')
         .then((value) {
       Navigator.pop(context);
     });

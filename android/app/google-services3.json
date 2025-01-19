@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "244262150078",
+    "firebase_url": "https://elkbusinesshub-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "elkbusinesshub",
+    "storage_bucket": "elkbusinesshub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244262150078:android:6b5a9dd7d916d2f96923ef",
+        "android_client_info": {
+          "package_name": "com.infinitelab.elk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244262150078-92robbpftgj4thsvq4s3k1mnjvl5pdiv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.infinitelab.elk",
+            "certificate_hash": "0aa75fb0b28af5edc1d16671330e97d5e64dde7c"
+          }
+        },
+        {
+          "client_id": "244262150078-chp67p5afhrh89vj47r7fpkbm8attn9g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ-buo3VQrljJAAKJ2oRKdLGq3A74hCYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "244262150078-chp67p5afhrh89vj47r7fpkbm8attn9g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "244262150078-j8q2uid1pesoj6us9dtfjdsugpg3e3tm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.infinitelab.elk"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

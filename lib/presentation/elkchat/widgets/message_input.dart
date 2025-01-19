@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:elk/main.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
+import 'package:elk/utils/cutom_utils.dart';
 
 class MessageInputWidget extends StatefulWidget {
   final int? userId;
@@ -303,7 +304,7 @@ class _MessageInputWidgetState extends State<MessageInputWidget> {
                   decoration: InputDecoration(
                     hintText: state is RecordingState && state.isRecording
                         ? 'Recording Voice.....'
-                        : 'Type a message...',
+                        : localisation(context).typeMessage,
                     border: InputBorder.none,
                   ),
                 ),

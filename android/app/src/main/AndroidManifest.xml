@@ -53,7 +53,7 @@
                 <!-- Add optional android:host to distinguish your app
                       from others in case of conflicting scheme name -->
                 <data android:scheme="https"
-                    android:host="elkcompany.in"
+                    android:host="api.elkcompany.online"
                 />
 
                 <!-- <data android:scheme="sample" /> -->

@@ -159,12 +159,41 @@ class ChatScreenBloc extends Bloc<ChatScreenEvent, ChatScreenState> {
             otherUserId: event.userId));
       }
     });
+
+    on<UpdateMessageStatusEvent>((event, emit) {
+      final currentChatRoom = Map<String, dynamic>.from(state.chatRoom);
+      final currentChatData =
+          Map<String, dynamic>.from(currentChatRoom['chat']);
+      final List<dynamic> updatedChatMessages =
+          List.from(currentChatData['chatMessages'] ?? []);
+      for (var message in updatedChatMessages) {
+        if (message['status'] == 'send' &&
+            message['reciever_id'] == event.authUserId) {
+          message['status'] = 'read';
+        }
+      }
+
+      currentChatData['chatMessages'] = updatedChatMessages;
+      final updatedChatRoom = {
+        ...currentChatRoom,
+        'chat': currentChatData,
+      };
+
+      emit(ChatScreenLoaded(
+        chatRoom: updatedChatRoom,
+        isBlockedByOther: state.isBlockedByOther,
+        isYouBlock: state.isYouBlock,
+        authUserId: state.authUserId,
+        otherUserId: state.otherUserId,
+      ));
+    });
+
     on<TestEvent>((event, emit) {});
   }
 
   void connectSocket() {
     socket = IO.io(
-      'http://192.168.124.124:3000',
+      'https://api.elkcompany.online',
       <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': false,
@@ -192,6 +221,18 @@ class ChatScreenBloc extends Bloc<ChatScreenEvent, ChatScreenState> {
       }
     });
 
+    socket.on('readMessage', (data) {
+      final authUserId = data['authUserId'];
+      final otherUserId = data['otherUserId'];
+      socket.emit('updateMessageStatus', {
+        authUserId: state.authUserId,
+        otherUserId: state.otherUserId,
+      });
+      if (state.authUserId == authUserId && state.otherUserId == otherUserId) {
+        add(UpdateMessageStatusEvent(
+            authUserId: authUserId, otherUserId: otherUserId));
+      }
+    });
     socket.on('chatRoomCount', (data) {
       print('ChatRoomCount: $data');
     });

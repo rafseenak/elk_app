@@ -4,6 +4,7 @@ import 'package:elk/bloc/chat_room_list/chat_room_list_state.dart';
 import 'package:elk/presentation/elkchat/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:elk/utils/cutom_utils.dart';
 
 class ChatRoomList extends StatelessWidget {
   final int? authUserId;
@@ -19,7 +20,7 @@ class ChatRoomList extends StatelessWidget {
         )),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Chats"),
+          title: Text(localisation(context).chat),
         ),
         body: BlocBuilder<ChatRoomListBloc, ChatRoomListState>(
           builder: (context, state) {
@@ -27,8 +28,8 @@ class ChatRoomList extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else if (state is ChatRoomListLoaded) {
               return (state.chatRooms.isEmpty)
-                  ? const Center(
-                      child: Text('No chats'),
+                  ? Center(
+                      child: Text(localisation(context).noChatAvailable),
                     )
                   : ListView.builder(
                       itemCount: state.chatRooms.length,
@@ -64,17 +65,24 @@ class ChatRoomList extends StatelessWidget {
                                       ),
                                     )
                                   : const SizedBox(),
-                              onTap: () {
-                                Navigator.push(
+                              onTap: () async {
+                                await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ChatScreen(
-                                      userId: chatRoom['otherUser']['user_id'],
-                                      authUserId: authUserId,
-                                      ad: const {},
-                                    ),
-                                  ),
-                                );
+                                      builder: (context) => ChatScreen(
+                                            userId: chatRoom['otherUser']
+                                                ['user_id'],
+                                            authUserId: authUserId,
+                                            ad: const {},
+                                          )),
+                                ).then((value) {
+                                  context.read<ChatRoomListBloc>().add(
+                                        UpdateChatRoomNewMessageCount(
+                                          chatRoomIndex: index,
+                                          newMessageCount: 0,
+                                        ),
+                                      );
+                                });
                               },
                             ),
                             const Padding(

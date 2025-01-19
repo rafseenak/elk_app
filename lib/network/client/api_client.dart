@@ -1,4 +1,4 @@
-// ignore_for_file: unused_catch_clause
+// ignore_for_file: unused_catch_clause, avoid_print
 
 import 'package:dio/dio.dart';
 import 'package:elk/data/enum/location_type.dart';
@@ -158,6 +158,27 @@ class ApiClient {
       return DataSet.error(e.message);
     } catch (e) {
       return DataSet.error(e.toString());
+    }
+  }
+
+  Future<bool> deleteAccount(int? userId) async {
+    try {
+      final response = await _dio.delete(
+        '/delete_account',
+        queryParameters: {'user_id': userId},
+      );
+      print("Rafsee:${response.statusCode}");
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } on DioException catch (e) {
+      print("Rafsee: ${e.message}");
+      return false;
+    } catch (e) {
+      print("Rafsee: $e");
+      return false;
     }
   }
 

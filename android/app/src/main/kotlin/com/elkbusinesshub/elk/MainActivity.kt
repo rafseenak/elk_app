@@ -1,4 +1,4 @@
-package com.infinitelab.elk
+package com.elkbusinesshub.elk
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -6,3 +6,13 @@ class LoadChatRooms extends ChatRoomListEvent {
     required this.authUserId,
   });
 }
+
+class UpdateChatRoomNewMessageCount extends ChatRoomListEvent {
+  final int chatRoomIndex;
+  final int newMessageCount;
+
+  UpdateChatRoomNewMessageCount({
+    required this.chatRoomIndex,
+    required this.newMessageCount,
+  });
+}

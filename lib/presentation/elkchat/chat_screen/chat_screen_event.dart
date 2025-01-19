@@ -59,10 +59,32 @@ class BlockEvent extends ChatScreenEvent {
   });
 }
 
+class UpdateMessageStatusEvent extends ChatScreenEvent {
+  final String authUserId;
+  final String otherUserId;
+
+  UpdateMessageStatusEvent({
+    required this.authUserId,
+    required this.otherUserId,
+  });
+}
+
 class TestEvent extends ChatScreenEvent {}
 
 class PreviousMessagesEvent extends ChatScreenEvent {
   final List<Map<String, dynamic>> messages;
 
   PreviousMessagesEvent({required this.messages});
+}
+
+class ReadMessageEvent extends ChatScreenEvent {
+  final String messageId;
+  final String userId;
+  final int? authUserId;
+
+  ReadMessageEvent({
+    required this.messageId,
+    required this.userId,
+    required this.authUserId,
+  });
 }

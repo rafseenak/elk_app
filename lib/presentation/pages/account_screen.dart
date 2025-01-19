@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, unnecessary_import
+// ignore_for_file: unused_import, unnecessary_import, avoid_print, use_build_context_synchronously
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elk/config/routes_constants.dart';
@@ -6,6 +6,7 @@ import 'package:elk/constants.dart';
 import 'package:elk/constants/stringss.dart';
 import 'package:elk/data/enum/user_type.dart';
 import 'package:elk/data/model/auth_user.dart';
+import 'package:elk/network/client/api_client.dart';
 import 'package:elk/presentation/pages/privacy_update_screen.dart';
 import 'package:elk/presentation/pages/terms_and_conditions.dart';
 import 'package:elk/presentation/pages/terms_page.dart';
@@ -19,10 +20,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get_it/get_it.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -32,50 +36,138 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountState extends State<AccountScreen> {
+  // Future<void> deleteAccount(String token, String userId) async {
+  //   final url = Uri.parse(
+  //       'http://api.elkcompany.online/api/delete_account?user_id=$userId');
+  //   try {
+  //     final response = await http.delete(
+  //       url,
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'Bearer $token',
+  //       },
+  //     );
+  //     if (response.statusCode == 200) {
+  //       final data = json.decode(response.body);
+  //       if (data['success']) {
+
+  //       } else {
+  //         Fluttertoast.showToast(msg: 'Something went wrong. Try again.');
+  //       }
+  //     } else {
+  //       print('Error: ${response.statusCode} - ${response.body}');
+  //     }
+  //   } catch (error) {
+  //     print('Error deleting account: $error');
+  //   }
+  // }
+  ApiClient apiClient = GetIt.I<ApiClient>();
+  bool isDeleting = false;
   @override
   Widget build(BuildContext context) {
     return Consumer<AppAuthProvider>(builder: (context, provider, child) {
       return SafeArea(
           child: Scaffold(
-        body: SingleChildScrollView(
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                user(provider.authUser!),
-                header(Icons.notifications, localisation(context).notification),
-                listButton(
-                    'switch', localisation(context).appNotification, () {}),
-                header(Icons.more_vert_sharp, localisation(context).more),
-                listButton('button', localisation(context).changeLanguage, () {
-                  Navigator.pushNamed(context, RouteConstants.language,
-                      arguments: false);
-                }),
-                listButton('button', localisation(context).privacyPolicy,
-                    () async {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return const TermsAndConditionsPage();
-                  }));
-                }),
-                listButton('button', localisation(context).termsAndCondition,
-                    () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return const TermsAndConditionsScreen();
-                  }));
-                }),
-                listButton('text', localisation(context).signOut, () async {
-                  await AppPrefrences.clearUser().then((value) {
-                    Fluttertoast.showToast(msg: 'Signout successfully');
-                    context.read<AppAuthProvider>().isSignedIn();
-                  });
-                })
-              ],
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    user(provider.authUser!),
+                    header(Icons.notifications,
+                        localisation(context).notification),
+                    listButton(
+                        'switch', localisation(context).appNotification, () {}),
+                    header(Icons.more_vert_sharp, localisation(context).more),
+                    listButton('button', localisation(context).changeLanguage,
+                        () {
+                      Navigator.pushNamed(context, RouteConstants.language,
+                          arguments: false);
+                    }),
+                    listButton('button', localisation(context).privacyPolicy,
+                        () async {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return const TermsAndConditionsPage();
+                      }));
+                    }),
+                    listButton(
+                        'button', localisation(context).termsAndCondition, () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return const TermsAndConditionsScreen();
+                      }));
+                    }),
+                    listButton('text', 'Delete Account', () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Delete Account?'),
+                            content: const Text(
+                                "This action will permanently delete your account, including all your data and preferences. This action cannot be undone. Are you sure you want to proceed?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    isDeleting = true;
+                                  });
+                                  final success = await apiClient
+                                      .deleteAccount(provider.authUser?.userId);
+                                  setState(() {
+                                    isDeleting = false;
+                                  });
+                                  if (success) {
+                                    await AppPrefrences.clearUser()
+                                        .then((value) {
+                                      Fluttertoast.showToast(
+                                          msg: 'Deleted Successfully.');
+                                      context
+                                          .read<AppAuthProvider>()
+                                          .isSignedIn();
+                                    });
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            'Something went wrong. Please try again later.$success');
+                                  }
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Delete'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }),
+                    listButton('text', localisation(context).signOut, () async {
+                      await AppPrefrences.clearUser().then((value) {
+                        Fluttertoast.showToast(msg: 'Signout successfully');
+                        context.read<AppAuthProvider>().isSignedIn();
+                      });
+                    })
+                  ],
+                ),
+              ),
             ),
-          ),
+            if (isDeleting)
+              Container(
+                color: Colors.black.withOpacity(0.5),
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+          ],
         ),
       ));
     });

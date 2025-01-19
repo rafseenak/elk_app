@@ -17,6 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
+import 'package:elk/utils/cutom_utils.dart';
 
 class ChatScreen extends StatefulWidget {
   final int? userId;
@@ -101,11 +102,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
                                     color: Colors.white),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    'No Messages, Start Chating...',
-                                    style: TextStyle(
+                                    localisation(context).noMessages,
+                                    // 'No Messages, Start Chating...',
+                                    style: const TextStyle(
                                         color: Colors.amber,
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold),
@@ -161,7 +163,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                   : ''),
                           actions: [
                             TextButton(
-                              child: const Text('Cancel'),
+                              child: Text(localisation(context).cancel),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
@@ -271,7 +273,8 @@ class _ChatScreenState extends State<ChatScreen> {
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.pop(context, 'Hello from SecondScreen');
+          // Navigator.pop(context);
         },
       ),
       title: BlocBuilder<ChatScreenBloc, ChatScreenState>(
@@ -832,11 +835,13 @@ class _ChatScreenState extends State<ChatScreen> {
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: Icon(
-                              status == 'read'
-                                  ? Icons.check_circle
-                                  : status == 'send'
-                                      ? Icons.check_circle_outline
-                                      : Icons.circle_outlined,
+                              (status == 'send' || status == 'read')
+                                  ? Icons.check_circle_outline
+                                  : Icons.circle_outlined, // status == 'read'
+                              //     ? Icons.check_circle
+                              //     : status == 'send'
+                              //         ? Icons.check_circle_outline
+                              //         : Icons.circle_outlined,
                               color: const Color.fromARGB(255, 255, 255, 255),
                               size: 16.0,
                             ),
