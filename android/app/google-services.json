@@ -23,11 +23,19 @@
           }
         },
         {
-          "client_id": "244262150078-qfv3qq5k0ka3r7s3gida72igvtlreh47.apps.googleusercontent.com",
+          "client_id": "244262150078-eegc5uq0ctcs1lc0rb3qv8n9m4cukfq1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.elkbusinesshub.elk",
-            "certificate_hash": "1d3c29c08f8e27005fd42d7ea997c09a7b907dc4"
+            "certificate_hash": "b3ccf352ba3479d8ea5f976ab65924f62704ff35"
+          }
+        },
+        {
+          "client_id": "244262150078-ofnv8algnknsap089qthq2gp56eicu0t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.elkbusinesshub.elk",
+            "certificate_hash": "71c7713b38190105074083f424e6249a31442753"
           }
         },
         {
@@ -72,14 +80,6 @@
           "android_info": {
             "package_name": "com.infinitelab.elk",
             "certificate_hash": "0aa75fb0b28af5edc1d16671330e97d5e64dde7c"
-          }
-        },
-        {
-          "client_id": "244262150078-htob4if4o7iomi65trqa4qmo7invgu1j.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.infinitelab.elk",
-            "certificate_hash": "1d3c29c08f8e27005fd42d7ea997c09a7b907dc4"
           }
         },
         {

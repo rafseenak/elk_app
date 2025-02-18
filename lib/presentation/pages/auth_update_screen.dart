@@ -120,6 +120,7 @@ class _AuthUpdateScreen extends State<AuthUpdateScreen> {
     }
   }
 
+  ApiClient apiClient = GetIt.I<ApiClient>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -236,10 +237,20 @@ class _AuthUpdateScreen extends State<AuthUpdateScreen> {
         FocusScope.of(context).unfocus();
         if (!otpSended) {
           if (otpEditTextController.value.text.length == 10) {
-            setState(() {
-              otpSending = true;
+            apiClient
+                .checkPhoneExists('+91 ${otpEditTextController.value.text}')
+                .then((isPhoneExist) async {
+              if (!isPhoneExist) {
+                setState(() {
+                  otpSending = true;
+                });
+                sendOtp('+91 ${otpEditTextController.value.text}');
+              } else {
+                Fluttertoast.showToast(
+                    msg:
+                        'An account already exists with the given number. Please try again with a different number.');
+              }
             });
-            sendOtp('+91 ${otpEditTextController.value.text}');
           } else {
             Fluttertoast.showToast(msg: 'Invalid mobile number');
           }

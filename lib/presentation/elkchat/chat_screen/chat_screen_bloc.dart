@@ -221,18 +221,18 @@ class ChatScreenBloc extends Bloc<ChatScreenEvent, ChatScreenState> {
       }
     });
 
-    socket.on('readMessage', (data) {
-      final authUserId = data['authUserId'];
-      final otherUserId = data['otherUserId'];
-      socket.emit('updateMessageStatus', {
-        authUserId: state.authUserId,
-        otherUserId: state.otherUserId,
-      });
-      if (state.authUserId == authUserId && state.otherUserId == otherUserId) {
-        add(UpdateMessageStatusEvent(
-            authUserId: authUserId, otherUserId: otherUserId));
-      }
-    });
+    // socket.on('readMessage', (data) {
+    //   final authUserId = data['authUserId'];
+    //   final otherUserId = data['otherUserId'];
+    //   socket.emit('updateMessageStatus', {
+    //     authUserId: state.authUserId,
+    //     otherUserId: state.otherUserId,
+    //   });
+    //   if (state.authUserId == authUserId && state.otherUserId == otherUserId) {
+    //     add(UpdateMessageStatusEvent(
+    //         authUserId: authUserId, otherUserId: otherUserId));
+    //   }
+    // });
     socket.on('chatRoomCount', (data) {
       print('ChatRoomCount: $data');
     });

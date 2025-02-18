@@ -182,6 +182,24 @@ class ApiClient {
     }
   }
 
+  Future<bool> checkPhoneExists(String mobileNumber) async {
+    try {
+      final response = await _dio.get(
+        '/check-phone',
+        queryParameters: {'mobile_number': mobileNumber},
+      );
+
+      if (response.statusCode == 200) {
+        return response.data['exists'];
+      } else {
+        throw Exception('Failed to check phone number');
+      }
+    } catch (e) {
+      print('Error checking phone number: $e');
+      return false;
+    }
+  }
+
   Future<DataSet<String>> updateNotificationToken(String token) async {
     try {
       final response = await _dio.post(

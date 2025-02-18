@@ -102,12 +102,13 @@ class _AccountState extends State<AccountScreen> {
                         return const TermsAndConditionsScreen();
                       }));
                     }),
-                    listButton('text', 'Delete Account', () {
+                    listButton('text', localisation(context).deleteAccount, () {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('Delete Account?'),
+                            title:
+                                Text('${localisation(context).deleteAccount}?'),
                             content: const Text(
                                 "This action will permanently delete your account, including all your data and preferences. This action cannot be undone. Are you sure you want to proceed?"),
                             actions: [

@@ -120,5 +120,6 @@
   "noChatAvailable":"कोई चैट उपलब्ध नहीं",
   "typeMessage":"संदेश लिखें",
   "youDontHavePostedYet":"आपने अभी तक पोस्ट नहीं किया है",
-  "noDataFound":"कोई डेटा नहीं मिला"
+  "noDataFound":"कोई डेटा नहीं मिला",
+  "deleteAccount":"खाता हटा दो"
 }

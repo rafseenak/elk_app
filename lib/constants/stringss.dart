@@ -6,7 +6,7 @@ class StringConstants {
   static const imageAssetsPath = 'assets/images';
   static const iconAssetPath = 'assets/category_icons';
   static const svgAssetsPath = 'assets/svg';
-  static const _testApiAddress = 'http://192.168.1.5:3000/api/';
+  static const _testApiAddress = 'http://192.168.1.8:3000/api/';
   static const _nodeTestAddress = 'https://backend-elk.onrender.com/api/';
   static const apiAddress = "https://api.elkcompany.online/api/";
   static const _railwayApiAddress =

@@ -1,4 +1,4 @@
-// ignore_for_file:  use_build_context_synchronously
+// ignore_for_file:  use_build_context_synchronously, unused_local_variable, unused_element
 
 import 'package:elk/constants.dart';
 import 'package:elk/network/client/api_client.dart';
@@ -50,132 +50,133 @@ class _MessageInputWidgetState extends State<MessageInputWidget> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Container(
-                    height: bloc.mainContainerHeight,
-                    margin:
-                        const EdgeInsets.only(left: 15, right: 4, bottom: 15),
-                    padding: const EdgeInsets.all(2),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(35)),
-                      color: Colors.amber,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        if (bloc.showOptions)
-                          Column(
-                            children: [
-                              BlocListener<MessageInputBloc, MessageInputState>(
-                                listener: (context, state) {
-                                  final isAdTag1 = context
-                                      .read<MessageInputBloc>()
-                                      .state
-                                      .isAdTag;
-                                  if (state is UploadCompleteStateCamera) {
-                                    context
-                                        .read<MessageInputBloc>()
-                                        .add(ClearAdTagEvent());
-                                    context.read<ChatScreenBloc>().add(
-                                          SendMessageEvent(
-                                            authUserId: widget.authUserId,
-                                            userId: widget.userId,
-                                            message: state.path,
-                                            type: 'image',
-                                            file_url: state.file,
-                                            file_name: state.message,
-                                            ad: isAdTag1 ? widget.ad : null,
-                                          ),
-                                        );
-                                    // context
-                                    //     .read<MessageInputBloc>()
-                                    //     .add(SetOptionFalseEvent());
-                                  }
-                                },
-                                child: _buildOptionButton(
-                                  icon: Icons.camera_outlined,
-                                  onPressed: () {
-                                    context
-                                        .read<MessageInputBloc>()
-                                        .add(OpenCameraEvent());
-                                  },
-                                ),
-                              ),
-                              BlocListener<MessageInputBloc, MessageInputState>(
-                                listener: (context, state) {
-                                  final isAdTag1 = context
-                                      .read<MessageInputBloc>()
-                                      .state
-                                      .isAdTag;
-                                  if (state is UploadCompleteStateImage) {
-                                    context
-                                        .read<MessageInputBloc>()
-                                        .add(ClearAdTagEvent());
-                                    context.read<ChatScreenBloc>().add(
-                                          SendMessageEvent(
-                                            authUserId: widget.authUserId,
-                                            userId: widget.userId,
-                                            message: state.path,
-                                            type: 'image',
-                                            file_url: state.file,
-                                            file_name: state.message,
-                                            ad: isAdTag1 ? widget.ad : null,
-                                          ),
-                                        );
-                                  }
-                                },
-                                child: _buildOptionButton(
-                                  icon: Icons.image_outlined,
-                                  onPressed: () {
-                                    // context
-                                    //     .read<MessageInputBloc>()
-                                    //     .add(SetOptionFalseEvent());
-                                    context
-                                        .read<MessageInputBloc>()
-                                        .add(PickFileEvent(false));
-                                  },
-                                ),
-                              ),
-                              // BlocListener<MessageInputBloc, MessageInputState>(
-                              //   listener: (context, state) {
-                              //     final isAdTag1 = context
-                              //         .read<MessageInputBloc>()
-                              //         .state
-                              //         .isAdTag;
-                              //     if (state is UploadCompleteStateVideo) {
-                              //       context
-                              //           .read<MessageInputBloc>()
-                              //           .add(ClearAdTagEvent());
-                              //       context.read<ChatScreenBloc>().add(
-                              //             SendMessageEvent(
-                              //               authUserId: widget.authUserId,
-                              //               userId: widget.userId,
-                              //               message: state.path,
-                              //               type: 'video',
-                              //               file_url: state.file,
-                              //               file_name: state.message,
-                              //               ad: isAdTag1 ? widget.ad : null,
-                              //             ),
-                              //           );
-                              //     }
-                              //   },
-                              //   child: _buildOptionButton(
-                              //     icon: Icons.videocam_outlined,
-                              //     onPressed: () {
-                              //       context
-                              //           .read<MessageInputBloc>()
-                              //           .add(SetOptionFalseEvent());
-                              //       context
-                              //           .read<MessageInputBloc>()
-                              //           .add(PickFileEvent(true));
-                              //     },
-                              //   ),
-                              // ),
-                            ],
-                          ),
-                        _buildToggleOptionsButton(context),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   height: bloc.mainContainerHeight,
+                  //   margin:
+                  //       const EdgeInsets.only(left: 15, right: 4, bottom: 15),
+                  //   padding: const EdgeInsets.all(2),
+                  //   decoration: const BoxDecoration(
+                  //     borderRadius: BorderRadius.all(Radius.circular(35)),
+                  //     color: Colors.amber,
+                  //   ),
+                  //   child: Column(
+                  //     mainAxisAlignment: MainAxisAlignment.end,
+                  //     children: [
+                  //       if (bloc.showOptions)
+                  //         Column(
+                  //           children: [
+                  //             BlocListener<MessageInputBloc, MessageInputState>(
+                  //               listener: (context, state) {
+                  //                 final isAdTag1 = context
+                  //                     .read<MessageInputBloc>()
+                  //                     .state
+                  //                     .isAdTag;
+                  //                 if (state is UploadCompleteStateCamera) {
+                  //                   context
+                  //                       .read<MessageInputBloc>()
+                  //                       .add(ClearAdTagEvent());
+                  //                   context.read<ChatScreenBloc>().add(
+                  //                         SendMessageEvent(
+                  //                           authUserId: widget.authUserId,
+                  //                           userId: widget.userId,
+                  //                           message: state.path,
+                  //                           type: 'image',
+                  //                           file_url: state.file,
+                  //                           file_name: state.message,
+                  //                           ad: isAdTag1 ? widget.ad : null,
+                  //                         ),
+                  //                       );
+                  //                   // context
+                  //                   //     .read<MessageInputBloc>()
+                  //                   //     .add(SetOptionFalseEvent());
+                  //                 }
+                  //               },
+                  //               child: _buildOptionButton(
+                  //                 icon: Icons.camera_outlined,
+                  //                 onPressed: () {
+                  //                   context
+                  //                       .read<MessageInputBloc>()
+                  //                       .add(OpenCameraEvent());
+                  //                 },
+                  //               ),
+                  //             ),
+                  //             BlocListener<MessageInputBloc, MessageInputState>(
+                  //               listener: (context, state) {
+                  //                 final isAdTag1 = context
+                  //                     .read<MessageInputBloc>()
+                  //                     .state
+                  //                     .isAdTag;
+                  //                 if (state is UploadCompleteStateImage) {
+                  //                   context
+                  //                       .read<MessageInputBloc>()
+                  //                       .add(ClearAdTagEvent());
+                  //                   context.read<ChatScreenBloc>().add(
+                  //                         SendMessageEvent(
+                  //                           authUserId: widget.authUserId,
+                  //                           userId: widget.userId,
+                  //                           message: state.path,
+                  //                           type: 'image',
+                  //                           file_url: state.file,
+                  //                           file_name: state.message,
+                  //                           ad: isAdTag1 ? widget.ad : null,
+                  //                         ),
+                  //                       );
+                  //                 }
+                  //               },
+                  //               child: _buildOptionButton(
+                  //                 icon: Icons.image_outlined,
+                  //                 onPressed: () {
+                  //                   // context
+                  //                   //     .read<MessageInputBloc>()
+                  //                   //     .add(SetOptionFalseEvent());
+                  //                   context
+                  //                       .read<MessageInputBloc>()
+                  //                       .add(PickFileEvent(false));
+                  //                 },
+                  //               ),
+                  //             ),
+                  //             // BlocListener<MessageInputBloc, MessageInputState>(
+                  //             //   listener: (context, state) {
+                  //             //     final isAdTag1 = context
+                  //             //         .read<MessageInputBloc>()
+                  //             //         .state
+                  //             //         .isAdTag;
+                  //             //     if (state is UploadCompleteStateVideo) {
+                  //             //       context
+                  //             //           .read<MessageInputBloc>()
+                  //             //           .add(ClearAdTagEvent());
+                  //             //       context.read<ChatScreenBloc>().add(
+                  //             //             SendMessageEvent(
+                  //             //               authUserId: widget.authUserId,
+                  //             //               userId: widget.userId,
+                  //             //               message: state.path,
+                  //             //               type: 'video',
+                  //             //               file_url: state.file,
+                  //             //               file_name: state.message,
+                  //             //               ad: isAdTag1 ? widget.ad : null,
+                  //             //             ),
+                  //             //           );
+                  //             //     }
+                  //             //   },
+                  //             //   child: _buildOptionButton(
+                  //             //     icon: Icons.videocam_outlined,
+                  //             //     onPressed: () {
+                  //             //       context
+                  //             //           .read<MessageInputBloc>()
+                  //             //           .add(SetOptionFalseEvent());
+                  //             //       context
+                  //             //           .read<MessageInputBloc>()
+                  //             //           .add(PickFileEvent(true));
+                  //             //     },
+                  //             //   ),
+                  //             // ),
+                  //           ],
+                  //         ),
+                  //       _buildToggleOptionsButton(context),
+                  //     ],
+                  //   ),
+                  // ),
+                  const SizedBox(width: 15),
                   _buildMessageTextField(context, state),
                   _buildMicButton(context),
                 ],
@@ -291,7 +292,7 @@ class _MessageInputWidgetState extends State<MessageInputWidget> {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 5),
+                padding: const EdgeInsets.only(left: 15),
                 child: TextField(
                   onTap: () {
                     context.read<MessageInputBloc>().add(SetOptionFalseEvent());

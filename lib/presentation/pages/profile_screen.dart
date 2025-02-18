@@ -301,7 +301,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  if (label == 'Mobile') {
+                  if (label == localisation(context).mobile) {
                     Navigator.pushNamed(context, RouteConstants.authUpdate,
                         arguments: {
                           'profileProvider': profileProvider,

@@ -123,5 +123,6 @@
   "noChatAvailable":"No Chats Available",
   "typeMessage":"Type Message",
   "youDontHavePostedYet":"You don't have posted yet",
-  "noDataFound":"No Data Found"
+  "noDataFound":"No Data Found",
+  "deleteAccount":"Delete Account"
 }
